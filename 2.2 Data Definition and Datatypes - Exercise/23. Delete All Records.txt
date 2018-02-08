@@ -1,0 +1,1 @@
+DELETE FROM occupancies WHERE 1=1;

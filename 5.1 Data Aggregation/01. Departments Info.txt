@@ -1,0 +1,1 @@
+SELECT department_id, count(*) AS employees_count FROM employees AS e GROUP BY department_id ORDER BY department_id, employees_count;

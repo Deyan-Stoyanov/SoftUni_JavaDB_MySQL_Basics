@@ -1,0 +1,11 @@
+CREATE TABLE people
+(
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(200) NOT NULL,
+	picture BLOB,
+	height DECIMAL (4,2),
+	weight DECIMAL (4,2),
+	gender ENUM('m', 'f') NOT NULL,
+	birthdate DATE NOT NULL,
+	biography TEXT
+);

@@ -1,0 +1,79 @@
+CREATE TABLE employees
+(
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	first_name VARCHAR(50) NOT NULL,
+	last_name VARCHAR(50) NOT NULL,
+	title VARCHAR(50) NOT NULL,
+	notes VARCHAR(50)
+);
+CREATE TABLE customers
+(
+	account_number INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	first_name VARCHAR(50) NOT NULL,
+	last_name VARCHAR(50) NOT NULL,
+	phone_number BIGINT NOT NULL,
+	emergency_name VARCHAR(50) NOT NULL,
+	emergency_number BIGINT NOT NULL,
+	notes VARCHAR(50)
+);
+CREATE TABLE room_status
+(
+	room_status ENUM('free','taken','waiting') NOT NULL PRIMARY KEY,
+	notes VARCHAR(50)
+);
+CREATE TABLE room_types
+(
+	room_type VARCHAR(50) NOT NULL PRIMARY KEY,
+	notes VARCHAR(50)
+);
+CREATE TABLE bed_types
+(
+	bed_type VARCHAR(50) NOT NULL PRIMARY KEY,
+	notes VARCHAR(50)
+);
+CREATE TABLE rooms
+(
+	room_number INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	room_type VARCHAR(50) NOT NULL,
+	bed_type VARCHAR(50) NOT NULL,
+	rate INT NOT NULL,
+	room_status ENUM('free','taken','waiting') NOT NULL,
+	notes VARCHAR(50)
+);
+CREATE TABLE payments
+(
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	employee_id INT NOT NULL,
+	payment_date DATE NOT NULL,
+	account_number INT NOT NULL,
+	first_date_occupied DATE NOT NULL,
+	last_date_occupied DATE NOT NULL,
+	total_days INT NOT NULL,
+	amount_charged DECIMAL(4,2) NOT NULL,
+	tax_rate DECIMAL(4,2) NOT NULL,
+	tax_amount DECIMAL(4,2) NOT NULL,
+	payment_total DECIMAL(4,2) NOT NULL,
+	notes VARCHAR(50)
+);
+CREATE TABLE occupancies
+(
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	employee_id INT NOT NULL,
+	date_occupied DATE NOT NULL,
+	account_number INT NOT NULL,
+	room_number INT NOT NULL,
+	rate_applied DECIMAL(4,2) NOT NULL,
+	phone_charge DECIMAL(4,2) NOT NULL,
+	notes VARCHAR(50)
+);
+ALTER TABLE `occupancies`
+	ADD CONSTRAINT `FK_occupancies_employees` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`),
+	ADD CONSTRAINT `FK_occupancies_customers` FOREIGN KEY (`account_number`) REFERENCES `customers` (`account_number`),
+	ADD CONSTRAINT `FK_occupancies_rooms` FOREIGN KEY (`room_number`) REFERENCES `rooms` (`room_number`);
+ALTER TABLE `payments`
+	ADD CONSTRAINT `FK_payments_employees` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`),
+	ADD CONSTRAINT `FK_payments_customers` FOREIGN KEY (`account_number`) REFERENCES `customers` (`account_number`);
+ALTER TABLE `rooms`
+	ADD CONSTRAINT `FK_rooms_room_types` FOREIGN KEY (`room_type`) REFERENCES `room_types` (`room_type`),
+	ADD CONSTRAINT `FK_rooms_bed_types` FOREIGN KEY (`bed_type`) REFERENCES `bed_types` (`bed_type`),
+	ADD CONSTRAINT `FK_rooms_room_status` FOREIGN KEY (`room_status`) REFERENCES `room_status` (`room_status`);

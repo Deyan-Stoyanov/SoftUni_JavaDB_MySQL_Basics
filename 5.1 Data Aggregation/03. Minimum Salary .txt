@@ -1,0 +1,1 @@
+SELECT e.department_id, ROUND(MIN(e.salary), 2) AS min_salary FROM employees AS e GROUP BY department_id HAVING min_salary > 800;

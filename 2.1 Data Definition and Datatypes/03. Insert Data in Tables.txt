@@ -1,0 +1,9 @@
+INSERT INTO employees
+	(id, first_name, last_name)
+	VALUES (NULL, 'asd', 'sad'),(NULL, 'asd', 'sad'),(NULL, 'asd', 'sad');
+INSERT INTO categories
+	(id, name)
+	VALUES (NULL, 'asd'),(NULL, 'asd'),(NULL, 'asd');
+INSERT INTO products
+	(id, name, category_id)
+	VALUES (NULL, 'ads', 1),(NULL, 'ads', 1),(NULL, 'ads', 1);
