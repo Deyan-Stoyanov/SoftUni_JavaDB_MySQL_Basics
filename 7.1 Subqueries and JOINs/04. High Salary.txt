@@ -1,0 +1,9 @@
+SELECT 
+    COUNT(*) AS employees_with_higher_salaries
+FROM
+    employees AS e
+WHERE
+    e.salary > (SELECT 
+            AVG(em.salary)
+        FROM
+            employees AS em);
