@@ -1,0 +1,10 @@
+SELECT 
+    avg(e.salary) AS average
+FROM
+    employees AS e
+        INNER JOIN
+    departments AS d ON d.department_id = e.department_id
+    GROUP BY d.name
+    ORDER BY average ASC
+    LIMIT 1;
+    

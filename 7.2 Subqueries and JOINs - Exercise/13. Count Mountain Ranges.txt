@@ -1,0 +1,8 @@
+SELECT 
+    mc.country_code ,COUNT(mc.mountain_id) as count_m_range
+FROM
+    mountains_countries AS mc
+WHERE
+    mc.country_code IN ('US', 'RU', 'BG')
+    GROUP BY mc.country_code
+ORDER BY count_m_range DESC;

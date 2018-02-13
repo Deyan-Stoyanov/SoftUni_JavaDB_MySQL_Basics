@@ -1,0 +1,25 @@
+SELECT 
+    co.continent_code,
+    (SELECT 
+            s.currency_code
+        FROM
+            countries AS s
+        WHERE
+            s.continent_code = co.continent_code
+        GROUP BY s.currency_code
+        ORDER BY COUNT(*) DESC
+        LIMIT 1) AS curr_code,
+    (SELECT 
+            COUNT(*) AS magnitude
+        FROM
+            countries AS r
+        WHERE
+            r.continent_code = co.continent_code
+        GROUP BY r.currency_code
+        ORDER BY magnitude DESC
+        LIMIT 1) AS number_of_currencies
+FROM
+    countries AS co
+GROUP BY curr_code
+HAVING number_of_currencies > 1
+ORDER BY co.continent_code ASC , curr_code ASC;
