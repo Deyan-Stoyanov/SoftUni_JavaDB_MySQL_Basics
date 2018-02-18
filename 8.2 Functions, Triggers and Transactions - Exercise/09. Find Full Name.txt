@@ -1,0 +1,10 @@
+DELIMITER $$
+CREATE PROCEDURE usp_get_holders_full_name ()
+BEGIN
+SELECT 
+   concat(ac.first_name, ' ', ac.last_name) AS full_name
+FROM
+    account_holders AS ac
+ORDER BY full_name, ac.id ASC;
+END$$
+DELIMITER ;

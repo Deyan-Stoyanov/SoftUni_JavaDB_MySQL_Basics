@@ -1,0 +1,7 @@
+CREATE FUNCTION ufn_calculate_future_value (initial_sum DECIMAL(19, 4),yearly_interest_rate DECIMAL(19, 4), number_of_years DECIMAL(19, 4))
+RETURNS VARCHAR(50)
+BEGIN
+DECLARE future_value VARCHAR(50);
+SET future_value :=(IF(right((SELECT TRIM(TRAILING '0' FROM (SELECT(round((initial_sum * (pow((1 + yearly_interest_rate), number_of_years))), 2))))), 1) = '.', (SELECT TRIM(TRAILING '.' FROM (SELECT TRIM(TRAILING '0' FROM (SELECT(round((initial_sum * (pow((1 + yearly_interest_rate), number_of_years))), 2))))))), (SELECT TRIM(TRAILING '0' FROM (SELECT(round((initial_sum * (pow((1 + yearly_interest_rate), number_of_years))), 2))))))) ;
+RETURN future_value;
+END
