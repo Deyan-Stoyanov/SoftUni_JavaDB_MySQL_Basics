@@ -1,0 +1,8 @@
+SELECT 
+    m.content, m.sent_on
+FROM
+    messages AS m
+WHERE
+    DATE(m.sent_on) > DATE('2014-05-12')
+        AND m.content LIKE ('%just%')
+ORDER BY m.id DESC;

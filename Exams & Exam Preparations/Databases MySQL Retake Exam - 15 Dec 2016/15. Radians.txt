@@ -1,0 +1,7 @@
+DELIMITER $$
+CREATE FUNCTION udf_get_radians(num float)
+RETURNS FLOAT
+BEGIN
+RETURN((num*pi()) / 180);
+END$$
+DELIMITER ;

@@ -1,0 +1,12 @@
+SELECT 
+    u.nickname, c.title, round(l.latitude, 4), round(l.longitude, 4)
+FROM
+    users AS u
+        INNER JOIN
+    locations AS l ON l.id = u.location_id
+        INNER JOIN
+    users_chats AS uc ON uc.user_id = u.id
+        INNER JOIN
+    chats AS c ON uc.chat_id = c.id
+WHERE (l.latitude BETWEEN 41.139999 AND 44.129999) AND (l.longitude BETWEEN 22.209999AND 28.359999)
+ORDER BY c.title ASC;

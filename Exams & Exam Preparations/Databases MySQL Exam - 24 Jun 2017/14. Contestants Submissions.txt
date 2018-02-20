@@ -1,0 +1,12 @@
+SELECT 
+    c.id, c.name, (SELECT count(s.id) WHERE s.user_id IN (SELECT uc.user_id FROM users_contests AS uc WHERE uc.contest_id=c.id) ) AS cs
+FROM
+    contests AS c
+        LEFT JOIN
+    problems AS p ON p.contest_id = c.id
+        LEFT JOIN
+    submissions AS s ON s.problem_id = p.id
+    WHERE s.user_id IN (SELECT uc.user_id FROM users_contests AS uc WHERE uc.contest_id=c.id)
+GROUP BY c.id
+ORDER BY cs DESC, c.id ASC;
+

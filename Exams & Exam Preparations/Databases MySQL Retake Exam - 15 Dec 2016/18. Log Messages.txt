@@ -1,0 +1,17 @@
+CREATE TABLE messages_log (
+    id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    content VARCHAR(200),
+    sent_on DATE,
+    chat_id INT(11),
+    user_id INT(11)
+);
+
+DELIMITER $$
+CREATE TRIGGER tr_messages
+AFTER DELETE
+ON messages
+FOR EACH ROW
+BEGIN
+INSERT INTO messages_log (id, content, sent_on, chat_id, user_id) VALUES (OLD.id, OLD.content,OLD.sent_on, OLD.chat_id , OLD.user_id);
+END$$
+DELIMITER ;

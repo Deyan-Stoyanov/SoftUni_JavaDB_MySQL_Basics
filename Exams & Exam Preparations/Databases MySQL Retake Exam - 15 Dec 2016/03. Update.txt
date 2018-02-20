@@ -1,0 +1,1 @@
+UPDATE chats AS c SET start_date = (SELECT m.sent_on FROM messages AS m WHERE m.chat_id=c.id ORDER BY m.sent_on ASC LIMIT 1) WHERE c.start_date > (SELECT m.sent_on FROM messages AS m WHERE m.chat_id=c.id ORDER BY m.sent_on ASC LIMIT 1);

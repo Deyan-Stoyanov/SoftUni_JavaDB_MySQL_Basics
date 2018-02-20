@@ -1,0 +1,7 @@
+SELECT 
+   c.id, c.name, sum(p.points) AS maxpoints
+FROM
+    contests AS c
+        INNER JOIN
+    problems AS p ON p.contest_id=c.id GROUP BY c.id ORDER BY maxpoints DESC, c.id ASC;
+

@@ -1,0 +1,10 @@
+SELECT 
+    c.id, c.title, m.id
+FROM
+    chats AS c
+    INNER JOIN
+    messages AS m ON m.chat_id=c.id
+WHERE
+    DATE(m.sent_on)<DATE('2012-03-26') AND right(trim(c.title), 1)='x'
+    GROUP BY c.id
+ORDER BY c.id, m.id ASC;

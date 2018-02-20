@@ -1,0 +1,10 @@
+SELECT 
+    m.id, m.chat_id, m.user_id
+FROM
+    messages AS m 
+        LEFT JOIN
+    users_chats AS uc ON uc.chat_id = m.chat_id AND uc.user_id=m.user_id
+WHERE
+    m.chat_id = 17 AND (m.user_id NOT IN (SELECT usc.user_id FROM users_chats AS usc WHERE usc.chat_id=17) OR m.user_id IS NULL)
+    GROUP BY m.id
+ORDER BY m.id DESC;
