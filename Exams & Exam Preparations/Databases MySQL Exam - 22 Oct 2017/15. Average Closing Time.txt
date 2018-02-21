@@ -1,0 +1,12 @@
+SELECT 
+    d.name,
+    IF( AVG(DATEDIFF(r.close_date, r.open_date)) IS NULL, 'no info',
+    CAST(FLOOR(AVG(DATEDIFF(r.close_date, r.open_date))) AS CHAR(100))) AS duration
+FROM
+    departments AS d
+        INNER JOIN
+    categories AS c ON c.department_id = d.id
+        LEFT JOIN
+    reports AS r ON c.id = r.category_id
+GROUP BY d.name
+ORDER BY d.name

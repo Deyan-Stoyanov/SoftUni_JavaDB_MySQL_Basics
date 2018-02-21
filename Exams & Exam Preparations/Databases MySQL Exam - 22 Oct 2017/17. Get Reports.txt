@@ -1,0 +1,14 @@
+DELIMITER $$
+CREATE FUNCTION udf_get_reports_count(employee_id INT(11), status_id INT(11)) 
+RETURNS INT(11)
+BEGIN
+DECLARE reportcount INT(11);
+SET reportcount := ((SELECT 
+    COUNT(r.id)
+FROM
+    reports AS r
+WHERE
+    r.status_id = status_id AND r.employee_id = employee_id));
+RETURN reportcount;
+END$$
+DELIMITER ;

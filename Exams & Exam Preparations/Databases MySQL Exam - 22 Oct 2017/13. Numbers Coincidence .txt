@@ -1,0 +1,9 @@
+SELECT 
+   DISTINCT u.username
+FROM
+    users AS u
+        LEFT JOIN
+    reports AS r ON u.id = r.user_id
+WHERE
+    left(u.username, 1)=(CAST(r.category_id AS CHAR(50))) OR right(u.username, 1)=(CAST(r.category_id AS CHAR(50)))
+ORDER BY u.username ASC;

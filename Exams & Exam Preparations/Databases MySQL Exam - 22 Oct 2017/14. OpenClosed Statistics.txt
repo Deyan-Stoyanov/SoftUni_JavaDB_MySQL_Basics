@@ -1,0 +1,25 @@
+SELECT 
+    CONCAT(e.first_name, ' ', e.last_name) AS employee_name,
+    CONCAT((SELECT 
+            CAST(COUNT(re.id) AS CHAR)
+        FROM
+            reports AS re
+        WHERE
+            YEAR(re.close_date) = 2016
+                AND re.employee_id = e.id), '/',
+    (SELECT 
+            CAST(COUNT(rp.id) AS CHAR)
+        FROM
+            reports AS rp
+        WHERE
+            (YEAR(rp.open_date) = 2016)
+                AND (YEAR(rp.close_date) >= 2016
+                OR (rp.close_date IS NULL))
+                AND rp.employee_id = e.id)) AS a
+FROM
+    employees AS e
+        INNER JOIN
+    reports AS r ON e.id = r.employee_id
+GROUP BY e.id
+HAVING a NOT LIKE '0/0'
+ORDER BY employee_name;

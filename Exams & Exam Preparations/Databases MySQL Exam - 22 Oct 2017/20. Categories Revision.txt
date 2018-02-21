@@ -1,0 +1,33 @@
+SELECT 
+    c.name, 
+    count(r.id), 
+    CASE WHEN(SELECT count(re.id) FROM reports AS re
+        LEFT JOIN
+    categories AS ce ON ce.id = re.category_id
+        LEFT JOIN
+    status AS se ON se.id = re.status_id
+    WHERE se.id =1 AND ce.id=c.id) <  (SELECT count(re.id) FROM reports AS re
+        LEFT JOIN
+    categories AS ce ON ce.id = re.category_id
+         LEFT JOIN
+    status AS se ON se.id = re.status_id
+    WHERE se.id =2 AND ce.id=c.id) THEN 'in progress'
+    WHEN (SELECT count(re.id) FROM reports AS re
+        LEFT JOIN
+    categories AS ce ON ce.id = re.category_id
+        LEFT JOIN
+    status AS se ON se.id = re.status_id
+    WHERE se.id =1 AND ce.id=c.id) >  (SELECT count(re.id) FROM reports AS re
+        LEFT JOIN
+    categories AS ce ON ce.id = re.category_id
+        LEFT JOIN
+    status AS se ON se.id = re.status_id
+    WHERE se.id =2 AND ce.id=c.id) THEN 'waiting' ELSE 'equal' END AS most
+FROM
+    reports AS r
+        INNER JOIN
+    categories AS c ON c.id = r.category_id
+        INNER JOIN
+    status AS s ON s.id = r.status_id
+    WHERE s.id IN (1, 2)
+    GROUP BY c.name

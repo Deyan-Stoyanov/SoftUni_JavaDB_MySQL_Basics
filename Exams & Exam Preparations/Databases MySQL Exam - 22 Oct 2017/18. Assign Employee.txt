@@ -1,0 +1,10 @@
+DELIMITER $$
+CREATE PROCEDURE usp_assign_employee_to_report(employee_id INT, report_id INT) 
+BEGIN
+START TRANSACTION;
+IF((SELECT e.department_id FROM employees AS e WHERE e.id=employee_id)!=(SELECT c.department_id FROM reports AS r INNER JOIN categories AS c ON r.category_id=c.id WHERE r.id=report_id)) THEN SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Employee doesn\'t belong to the appropriate department!'; ROLLBACK;
+ELSE UPDATE reports AS r SET r.employee_id=employee_id WHERE r.id=report_id;
+COMMIT;
+END IF;
+END$$
+DELIMITER ;

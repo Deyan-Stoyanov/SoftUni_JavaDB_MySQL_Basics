@@ -1,0 +1,30 @@
+SELECT 
+    d.name AS department_name,
+    c.name AS category_name,
+    ROUND((SELECT 
+                    COUNT(*)
+                FROM
+                    departments AS de
+                    INNER JOIN 
+					categories AS ca ON ca.department_id=de.id
+					INNER JOIN reports AS re ON re.category_id=ca.id
+                WHERE
+                    c.name=ca.name GROUP BY de.name) / 
+			(SELECT 
+                    COUNT(*)
+                FROM
+                    departments AS de
+                    INNER JOIN 
+					categories AS ca ON ca.department_id=de.id
+					INNER JOIN reports AS re ON re.category_id=ca.id
+                WHERE
+                    de.name=d.name GROUP BY de.name, c.name) * 100) AS percentage
+FROM
+    departments AS d
+        INNER JOIN
+    categories AS c ON c.department_id = d.id
+        INNER JOIN
+    reports AS r ON c.id = r.category_id
+GROUP BY c.name
+HAVING COUNT(r.id > 0)
+ORDER BY d.name, c.name, percentage;

@@ -1,0 +1,56 @@
+CREATE DATABASE reportService;
+USE reportService;
+CREATE TABLE users(
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(30) UNIQUE NOT NULL,
+    `password` VARCHAR(50) NOT NULL,
+	`name` VARCHAR(50),
+    gender VARCHAR(1),
+    birthdate DATETIME,
+    age INT UNSIGNED,
+    email VARCHAR(50) NOT NULL
+);
+CREATE TABLE departments(
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `name` VARCHAR(50) NOT NULL
+);
+CREATE TABLE employees(
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(25),
+    last_name VARCHAR(25),
+    gender VARCHAR(1),
+    birthdate DATETIME,
+    age INT UNSIGNED,
+    department_id INT UNSIGNED NOT NULL,
+    CONSTRAINT fk_employees_departments
+    FOREIGN KEY(department_id) REFERENCES departments(id)
+);
+CREATE TABLE categories(
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(25) NOT NULL,
+    department_id INT UNSIGNED NOT NULL,
+    CONSTRAINT fk_categories_departments
+    FOREIGN KEY(department_id) REFERENCES departments(id)
+);
+CREATE TABLE `status`(
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    label VARCHAR(30) NOT NULL
+);
+CREATE TABLE reports (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    category_id INT UNSIGNED NOT NULL,
+    status_id INT UNSIGNED NOT NULL,
+    open_date DATETIME,
+    close_date DATETIME,
+    description VARCHAR(200),
+    user_id INT UNSIGNED NOT NULL,
+    employee_id INT UNSIGNED,
+    CONSTRAINT fk_reports_categories FOREIGN KEY (category_id)
+        REFERENCES categories (id),
+    CONSTRAINT fk_reports_status FOREIGN KEY (status_id)
+        REFERENCES `status` (id),
+    CONSTRAINT fk_reports_users FOREIGN KEY (user_id)
+        REFERENCES users (id),
+    CONSTRAINT fk_reports_employees FOREIGN KEY (employee_id)
+        REFERENCES employees (id)
+);

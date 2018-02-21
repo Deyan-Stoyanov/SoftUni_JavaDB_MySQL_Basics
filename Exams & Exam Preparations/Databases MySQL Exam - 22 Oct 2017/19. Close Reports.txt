@@ -1,0 +1,8 @@
+CREATE TRIGGER tr_close_report
+BEFORE UPDATE
+ON reports
+FOR EACH ROW
+BEGIN
+IF (OLD.close_date IS NULL AND NEW.close_date IS NOT NULL) THEN SET NEW.status_id=3 ; 
+END IF;
+END
