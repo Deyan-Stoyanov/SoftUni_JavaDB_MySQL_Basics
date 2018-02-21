@@ -1,0 +1,12 @@
+SELECT 
+    c.city_name, b.name, COUNT(e.employee_id)
+FROM
+    employees AS e
+        INNER JOIN
+    branches AS b ON b.branch_id = e.branch_id
+        INNER JOIN
+    cities AS c ON c.city_id = b.city_id
+WHERE
+    c.city_id NOT IN (4 , 5)
+GROUP BY c.city_name , b.name
+HAVING COUNT(e.employee_id) >= 3;

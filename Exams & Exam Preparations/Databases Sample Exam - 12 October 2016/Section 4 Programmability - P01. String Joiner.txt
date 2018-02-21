@@ -1,0 +1,9 @@
+DELIMITER $$
+CREATE FUNCTION udf_ConcatString(str1 VARCHAR(50), str2 VARCHAR(50))
+RETURNS VARCHAR(100)
+BEGIN
+DECLARE stringConcat VARCHAR(100);
+SET stringConcat := concat(reverse(str1), reverse(str2));
+RETURN stringConcat;
+END$$
+DELIMITER ;

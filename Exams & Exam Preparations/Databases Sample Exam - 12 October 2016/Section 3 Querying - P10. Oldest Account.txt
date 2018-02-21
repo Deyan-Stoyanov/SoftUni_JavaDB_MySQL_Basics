@@ -1,0 +1,7 @@
+SELECT 
+    c.customer_id, c.first_name, a.start_date
+FROM
+    customers AS c
+        INNER JOIN
+    accounts AS a On a.customer_id=c.customer_id
+WHERE a.account_id=(SELECT ac.account_id FROM accounts AS ac ORDER BY ac.start_date ASC LIMIT 1);

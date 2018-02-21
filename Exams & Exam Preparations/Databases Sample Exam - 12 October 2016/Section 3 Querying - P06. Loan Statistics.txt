@@ -1,0 +1,8 @@
+SELECT 
+    sum(l.amount), max(l.interest), min(e.salary)
+FROM
+    employees AS e
+        INNER JOIN
+    employees_loans AS el ON el.employee_id=e.employee_id
+        INNER JOIN
+    loans AS l ON l.loan_id = el.loan_id

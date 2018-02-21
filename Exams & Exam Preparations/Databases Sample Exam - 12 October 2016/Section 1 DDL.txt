@@ -1,0 +1,52 @@
+CREATE TABLE deposittype(
+DepositTypeId INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+Name VARCHAR(20)
+);
+CREATE TABLE deposits (
+    DepositId INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    Amount DECIMAL(10 , 2 ),
+    startdate DATE,
+    enddate DATE,
+    deposittypeid INT(11),
+    customerid INT(11),
+    CONSTRAINT fk_deposits_deposittypes FOREIGN KEY (deposittypeid)
+        REFERENCES deposittype (deposittypeid),
+    CONSTRAINT fk_deposits_customers FOREIGN KEY (customerid)
+        REFERENCES customers (customer_id)
+);
+CREATE TABLE EmployeesDeposits (
+	employeeid INT(11),
+    DepositId INT(11),
+    CONSTRAINT pk_employees_deposits PRIMARY KEY(employeeid,DepositId),
+    CONSTRAINT fk_employees_deposits_deposits FOREIGN KEY (DepositId)
+        REFERENCES deposits (DepositId),
+    CONSTRAINT fk_deposits_employees_employees FOREIGN KEY (employeeid)
+        REFERENCES employees (employee_id)
+);
+CREATE TABLE CreditHistory (
+    CreditHistoryId INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	mark VARCHAR(1),
+    startdate DATE,
+    enddate DATE,
+    customerid INT(11),
+    CONSTRAINT fk_credithistory_customers FOREIGN KEY (customerid)
+        REFERENCES customers (customer_id)
+);
+CREATE TABLE payments (
+    payment INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	`date` DATE,
+    amount DECIMAL(10, 2),
+    loanid INT(11),
+    CONSTRAINT fk_cpayments_loans FOREIGN KEY (loanid)
+        REFERENCES loans (loan_id)
+);
+CREATE TABLE users (
+    userid INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	username VARCHAR(20),
+	`password` VARCHAR(20),
+    customerid INT(11) UNIQUE,
+    CONSTRAINT fk_users_customers FOREIGN KEY (customerid)
+        REFERENCES customers (customer_id)
+);
+ALTER TABLE employees ADD COLUMN managerid INT(11),
+ add CONSTRAINT fk_employees_employees FOREIGN KEY (managerid) REFERENCES employees(employee_id);

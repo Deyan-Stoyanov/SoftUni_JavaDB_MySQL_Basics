@@ -1,0 +1,14 @@
+DELIMITER $$
+CREATE PROCEDURE usp_customers_with_unexpired_loans(customer_id INT(11))
+BEGIN
+SELECT 
+    c.customer_id, c.first_name, l.loan_id
+FROM
+    customers AS c
+        INNER JOIN
+    loans AS l ON l.customer_id = c.customer_id
+WHERE
+    l.expiration_date IS NULL
+        AND c.customer_id = customer_id;
+END$$
+DELIMITER ;

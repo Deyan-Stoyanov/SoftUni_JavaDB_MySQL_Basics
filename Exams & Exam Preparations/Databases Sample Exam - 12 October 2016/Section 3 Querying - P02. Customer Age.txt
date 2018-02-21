@@ -1,0 +1,8 @@
+SELECT 
+    c.first_name,
+    c.date_of_birth,
+    ROUND(DATEDIFF('2016-10-01', c.date_of_birth) / 365) AS age
+FROM
+    customers AS c
+WHERE
+    DATEDIFF('2016-10-01', c.date_of_birth) / 365 BETWEEN 40 AND 50;

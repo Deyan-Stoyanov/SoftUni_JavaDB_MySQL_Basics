@@ -1,0 +1,17 @@
+SELECT 
+    c.customer_id, SUM(l.amount) AS suml
+FROM
+    customers AS c
+        INNER JOIN
+    loans AS l ON l.customer_id = c.customer_id
+GROUP BY c.customer_id
+HAVING suml > (SELECT 
+            AVG(lo.amount)
+        FROM
+            loans AS lo
+                INNER JOIN
+            customers AS cu ON cu.customer_id = lo.customer_id
+        WHERE
+            cu.gender = 'M')
+ORDER BY c.last_name ASC
+LIMIT 5;

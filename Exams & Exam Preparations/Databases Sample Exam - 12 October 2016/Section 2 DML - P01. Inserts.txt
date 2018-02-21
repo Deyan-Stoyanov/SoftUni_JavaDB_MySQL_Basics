@@ -1,0 +1,4 @@
+INSERT INTO deposittype(deposittypeid, name) VALUES (1, "Time Deposit"), (2, "Call Deposit"), (3, "Free Deposit");
+INSERT INTO deposits(amount, startdate, enddate, deposittypeid, customerid)
+ SELECT (CASE WHEN c.date_of_birth > '1980-01-01' THEN (CASE WHEN c.gender = 'M' THEN 1100 ELSE 1200 END) ELSE (CASE WHEN c.gender = 'M' THEN 1600 ELSE 1700 END) END),  date(NOW()), NULL, (CASE WHEN c.customer_id > 15 THEN 3 WHEN c.customer_id % 2 = 0 AND c.customer_id <= 15 THEN 2 WHEN c.customer_id % 2 != 0 AND c.customer_id <= 15 THEN 3 END), c.customer_id FROM customers AS c WHERE c.customer_id < 20;
+INSERT INTO employeesdeposits(employeeid, DepositId) VALUES (15, 4), (20, 15), (8, 7), (4, 8), (3, 13), (3, 8), (4, 10), (10, 1), (13, 4), (14, 9);
