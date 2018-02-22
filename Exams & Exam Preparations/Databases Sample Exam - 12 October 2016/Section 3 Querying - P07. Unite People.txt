@@ -1,1 +1,15 @@
-(SELECT e.first_name, c.city_name FROM employees AS e INNER JOIN branches AS b ON b.branch_id=e.branch_id INNER JOIN cities AS c ON c.city_id=b.city_id LIMIT 3) UNION ALL (SELECT cu.first_name, ci.city_name FROM customers AS cu INNER JOIN cities AS ci ON cu.city_id=ci.city_id LIMIT 3);
+(SELECT 
+    e.first_name, c.city_name
+FROM
+    employees AS e
+        INNER JOIN
+    branches AS b ON b.branch_id = e.branch_id
+        INNER JOIN
+    cities AS c ON c.city_id = b.city_id
+LIMIT 3) UNION ALL (SELECT 
+    cu.first_name, ci.city_name
+FROM
+    customers AS cu
+        INNER JOIN
+    cities AS ci ON cu.city_id = ci.city_id
+LIMIT 3);
