@@ -1,0 +1,17 @@
+DELIMITER $$
+CREATE TRIGGER tr_arrived_flights
+BEFORE UPDATE
+ON flights
+FOR EACH ROW
+BEGIN
+IF(NEW.status='Arrived' AND OLD.status IN('Delayed', 'Departing')) THEN 
+INSERT INTO arrived_flights(flight_id, arrival_time, origin, destination, passengers) VALUES(
+(SELECT f.flight_id FROM flights AS f WHERE f.flight_id= OLD.flight_id),
+(SELECT f.arrival_time FROM flights AS f WHERE f.flight_id=OLD.flight_id), 
+(SELECT a.airport_name FROM flights AS f INNER JOIN airports AS a ON a.airport_id=f.origin_airport_id WHERE f.flight_id=OLD.flight_id), 
+(SELECT ad.airport_name FROM flights AS f INNER JOIN airports AS ad ON ad.airport_id=f.destination_airport_id WHERE f.flight_id=OLD.flight_id), 
+(SELECT COUNT(ti.ticket_id) FROM flights AS f INNER JOIN tickets AS ti ON ti.flight_id = f.flight_id INNER JOIN customers AS c ON c.customer_id = ti.customer_id WHERE f.flight_id = OLD.flight_id AND ti.flight_id=OLD.flight_id)
+);
+END IF;
+END$$
+DELIMITER ;

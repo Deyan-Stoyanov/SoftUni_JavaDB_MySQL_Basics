@@ -1,0 +1,12 @@
+SELECT 
+        *
+    FROM
+        airlines AS a
+    WHERE
+        a.airline_id IN (SELECT DISTINCT
+                f.airline_id
+            FROM
+                flights AS f)
+    GROUP BY a.airline_id
+    ORDER BY a.rating DESC
+    , a.airline_id ASC LIMIT 5;

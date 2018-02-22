@@ -1,0 +1,1 @@
+UPDATE tickets AS t SET t.price = (1.5*t.price) WHERE  t.flight_id IN (SELECT f.flight_id FROM flights AS f WHERE f.airline_id = (SELECT a.airline_id FROM airlines AS a ORDER BY a.rating DESC LIMIT 1));

@@ -1,0 +1,16 @@
+SELECT * FROM(SELECT DISTINCT
+    f.flight_id AS fi,
+    f.departure_time AS dt,
+    f.arrival_time,
+    oa.airport_name AS origin,
+    a.airport_name AS destination
+FROM
+    flights AS f
+        INNER JOIN
+    airports AS a ON a.airport_id = f.destination_airport_id
+        INNER JOIN
+    airports AS oa ON oa.airport_id = f.origin_airport_id
+WHERE
+    f.status = 'Departing'
+ORDER BY f.departure_time DESC , f.flight_id ASC
+LIMIT 5) AS lf ORDER BY dt, fi  ASC;
