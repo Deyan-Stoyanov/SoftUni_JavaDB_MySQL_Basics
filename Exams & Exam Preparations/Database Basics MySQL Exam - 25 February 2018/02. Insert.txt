@@ -1,0 +1,6 @@
+INSERT INTO issues(title, issue_status, repository_id, assignee_id) SELECT 
+concat('Critical Problem With ', f.name,'!'), 
+'open', 
+ceil((f.id * 2) / 3), 
+(SELECT c.contributor_id FROM commits AS c WHERE c.id=f.commit_id)  
+FROM files AS f WHERE f.id BETWEEN 46 AND 50;

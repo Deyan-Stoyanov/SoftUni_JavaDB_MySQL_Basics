@@ -1,0 +1,16 @@
+INSERT INTO repositories_contributors(repository_id, contributor_id) SELECT ((SELECT 
+                c.id
+            FROM
+                repositories AS c
+            WHERE
+                c.id NOT IN (SELECT 
+                        asd.repository_id
+                    FROM
+                        repositories_contributors AS asd)
+            ORDER BY c.id ASC
+            LIMIT 1)),  rc.contributor_id FROM repositories_contributors AS rc WHERE rc.contributor_id IN (SELECT 
+                r.contributor_id
+            FROM
+                repositories_contributors AS r
+            WHERE
+                r.contributor_id = r.repository_id);

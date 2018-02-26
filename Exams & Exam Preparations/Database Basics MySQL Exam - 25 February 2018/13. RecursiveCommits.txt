@@ -1,0 +1,19 @@
+SELECT 
+    SUBSTR(f.name,
+        1,
+        INSTR(f.name, '.') - 1) AS `file`,
+    (SELECT DISTINCT
+            COUNT(c.id)
+        FROM
+            commits AS c
+        WHERE
+            c.message LIKE (CONCAT('%', f.name, '%'))) AS recursive_count
+FROM
+    files AS f
+        INNER JOIN
+    files AS fi ON f.id = fi.parent_id
+        AND fi.id = f.parent_id
+WHERE
+    f.id != f.parent_id
+        AND fi.id != fi.parent_id AND f.parent_id IS NOT NULL AND fi.parent_id IS NOT NULL
+ORDER BY `file` ASC, recursive_count DESC;

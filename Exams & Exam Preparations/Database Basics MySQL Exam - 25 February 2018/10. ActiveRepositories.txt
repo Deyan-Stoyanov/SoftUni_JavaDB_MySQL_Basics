@@ -1,0 +1,13 @@
+SELECT 
+    r.id AS repo_id,
+    r.name AS repo_name,
+    (SELECT 
+            COUNT(*)
+        FROM
+            issues AS i
+        WHERE
+            i.repository_id = r.id) AS issue_count
+FROM
+    repositories AS r
+ORDER BY issue_count DESC , repo_id
+LIMIT 5;

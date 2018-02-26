@@ -1,0 +1,16 @@
+SELECT 
+    u.id,
+    u.username,
+    (SELECT 
+            COUNT(c.id)
+        FROM
+            commits AS c
+                INNER JOIN
+            issues AS i ON i.id = c.issue_id
+        WHERE
+            i.assignee_id = u.id
+                AND c.contributor_id = u.id) AS co
+FROM
+    users AS u
+GROUP BY u.id
+ORDER BY co DESC , u.id ASC;

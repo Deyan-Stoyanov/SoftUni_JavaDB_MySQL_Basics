@@ -1,0 +1,13 @@
+SELECT 
+    f.id, f.name, CONCAT(f.size, 'KB')
+FROM
+    files AS f
+WHERE
+    (SELECT 
+            COUNT(fi.id)
+        FROM
+            files AS fi
+        WHERE
+            fi.parent_id = f.id) = 0
+GROUP BY f.id
+ORDER BY f.id ASC;
